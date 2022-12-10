@@ -38,7 +38,6 @@ while True:
 
     # check signal strength
     if cycle % period == offset:
-        print(cycle)
         signal_strength += cycle * X_register
 
     # update X_register
@@ -51,6 +50,7 @@ while True:
 print(signal_strength)
 # %%
 
+import time
 
 cycle = 0
 X_register = 1
@@ -79,14 +79,20 @@ while True:
             current_number = int(command[5:])
             addx_flag = 2
 
-    if cycle % period == offset:
-        print("")
-
     position = (cycle - 1) % period
     if abs(position - X_register) <= 1:
-        print("#", end="")
+        print("█", end="", flush=True)
     else:
-        print(".", end="")
+        print(" ", end="", flush=True)
+
+    if cycle % period == offset - 1:
+        print("")
+
+    print("_", end="", flush=True)
+
+    time.sleep(0.02)
+
+    print("\b", end="", flush=True)
 
     # update X_register
     if addx_flag == 2:
@@ -94,7 +100,4 @@ while True:
     elif addx_flag == 1:
         addx_flag = 0
         X_register += current_number
-
-print(signal_strength)
-
 # %%
