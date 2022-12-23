@@ -3,31 +3,6 @@
 with open("input.txt", "r") as f:
     input_text = f.read().split("\n")
 input_text
-
-# input_text = """[1,1,3,1,1]
-# [1,1,5,1,1]
-
-# [[1],[2,3,4]]
-# [[1],4]
-
-# [9]
-# [[8,7,6]]
-
-# [[4,4],4,4]
-# [[4,4],4,4,4]
-
-# [7,7,7,7]
-# [7,7,7]
-
-# []
-# [3]
-
-# [[[]]]
-# [[]]
-
-# [1,[2,[3,[4,[5,6,7]]]],8,9]
-# [1,[2,[3,[4,[5,6,0]]]],8,9]"""
-# input_text = input_text.split("\n")
 # %%
 
 
@@ -70,4 +45,28 @@ print(sum)
 
 # %%
 
-input_packets = [eval(x) for x in input_text]
+input_packets = [eval(x) for x in input_text if x.strip() != ""]
+
+# Append divider packets
+input_packets.append([[2]])
+input_packets.append([[6]])
+
+
+def compare(left, right):
+    order = in_order(left, right)
+    if order == True:
+        return -1
+    elif order == False:
+        return 1
+    else:
+        return 0
+
+
+from functools import cmp_to_key
+
+sorted_packets = sorted(input_packets, key=cmp_to_key(compare))
+
+index_2 = sorted_packets.index([[2]]) + 1
+index_6 = sorted_packets.index([[6]]) + 1
+print(index_2 * index_6)
+# %%
